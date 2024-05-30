@@ -9,8 +9,9 @@
             background-color: black;
             margin: 0;
             padding: 0;
-            color: white;
+            color: rgb(232, 255, 224);
             font-family: Arial, sans-serif;
+            overflow-x: hidden; /* Ẩn thanh cuộn ngang */
         }
         header {
             position: relative;
@@ -29,7 +30,108 @@
             font-size: 24px;
             font-weight: bold;
         }
+        main {
+            padding: 10px;
+            overflow-y: auto; /* Cho phép cuộn dọc */
+        }
+        .title {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .fact-container { /* Khung cho mỗi fact */
+            background-color: #111;
+            border: 1px solid #333;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 10px;
+            opacity: 0; /* Ẩn ban đầu */
+            transform: translateY(20px); /* Di chuyển lên trên 20px */
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+        .fact-container.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .fact {
+            margin: 0; /* Loại bỏ margin của fact */
+        }
+        .highlight {
+            color: rgb(161, 161, 253);
+        }
+        .explanation {
+            display: none;
+            margin-left: 40px;
+            margin-top: 10px;
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            overflow: hidden;
+            opacity: 0;
+        }
+        .explanation.show {
+            display: block;
+            max-height: 200px;
+            opacity: 1;
+        }
+        .toggle-btn {
+            margin-left: 20px;
+            margin-top: 5px;
+            padding: 5px;
+            background-color: transparent;
+            border: none;
+            color: rgb(161, 161, 253);
+            cursor: pointer;
+            font-size: 18px;
+            transition: transform 0.2s ease-in-out;
+        }
+        .toggle-btn.open {
+            transform: rotate(180deg);
+        }
+        /* Hoạt ảnh cho giải thích */
+        @keyframes slideDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .explanation.show {
+            animation: slideDown 0.5s ease-in-out; /* Thêm hoạt ảnh slideDown */
+        }
+        /* Thêm hiệu ứng cuộn mượt */
+        main {
+            scroll-behavior: smooth; /* Cho phép cuộn mượt */
+        }
     </style>
+    <script>
+        function toggleExplanation(id) {
+            var explanation = document.getElementById(id);
+            var button = document.getElementById('button-' + id);
+
+            if (explanation.classList.contains('show')) {
+                explanation.classList.remove('show');
+                button.classList.remove('open');
+                button.textContent = '▽';
+            } else {
+                explanation.classList.add('show');
+                button.classList.add('open');
+                button.textContent = '△';
+            }
+        }
+        // Hiển thị facts sau một khoảng thời gian
+        window.onload = function() {
+            var facts = document.querySelectorAll('.fact-container'); // Chọn các khung fact
+            for (var i = 0; i < facts.length; i++) {
+                (function(index) {
+                    setTimeout(function() {
+                        facts[index].classList.add('show');
+                    }, index * 500);
+                })(i);
+            }
+        };
+    </script>
 </head>
 <body>
     <header>
@@ -37,8 +139,58 @@
         <div class="text">FACTS</div>
     </header>
     <main>
-        Một Vài Facts Thú Vị
-        #1 Một số loài nhện có thể quay tơ dai hơn thép 5 lần.
+        <div class="title">Một Vài Facts Thú Vị</div>
+        <div class="fact-container">
+            <div class="fact">
+                <span class="highlight">#1</span> <span class="fact-text">Một số loài nhện có thể quay tơ dai hơn thép 5 lần.</span>
+                <button id="button-explanation1" class="toggle-btn" onclick="toggleExplanation('explanation1')">▽</button>
+                <div class="explanation" id="explanation1">Nhện tạo ra một loại tơ cực kỳ chắc chắn và linh hoạt, gấp nhiều lần thép.</div>
+            </div>
+        </div>
+        <div class="fact-container">
+            <div class="fact">
+                <span class="highlight">#2</span> <span class="fact-text">Tê tê là loài động vật có vú duy nhất có vảy.</span>
+                <button id="button-explanation2" class="toggle-btn" onclick="toggleExplanation('explanation2')">▽</button>
+                <div class="explanation" id="explanation2">Vảy của tê tê được làm từ keratin, giống như móng tay của con người.</div>
+            </div>
+        </div>
+        <div class="fact-container">
+            <div class="fact">
+                <span class="highlight">#3</span> <span class="fact-text">Chim ruồi có thể bay lùi.</span>
+                <button id="button-explanation3" class="toggle-btn" onclick="toggleExplanation('explanation3')">▽</button>
+                <div class="explanation" id="explanation3">Chim ruồi có cấu trúc cánh độc đáo cho phép chúng bay theo mọi hướng.</div>
+            </div>
+        </div>
+        <div class="fact-container">
+            <div class="fact">
+                <span class="highlight">#4</span> <span class="fact-text">Mật ong không bao giờ hỏng.</span>
+                <button id="button-explanation4" class="toggle-btn" onclick="toggleExplanation('explanation4')">▽</button>
+                <div class="explanation" id="explanation4">Mật ong là một trong số ít các thực phẩm không bao giờ hỏng nếu được bảo quản đúng cách. Người ta đã tìm thấy mật ong trong các ngôi mộ cổ Ai Cập và nó vẫn ăn được.</div>
+            </div>
+        </div>
+        <div class="fact-container">
+            <div class="fact">
+                <span class="highlight">#5</span> <span class="fact-text">Cá ngựa là loài duy nhất mà con đực mang thai</span>
+                <button id="button-explanation5" class="toggle-btn" onclick="toggleExplanation('explanation5')">▽</button>
+                <div class="explanation" id="explanation5">Ở loài cá ngựa, con đực mới là cá thể mang thai và sinh con, thay vì con cái như ở hầu hết các loài khác</div>
+            </div>
+        </div>
+        <div class="fact-container">
+            <div class="fact">
+                <span class="highlight">#6</span> <span class="fact-text">Ngón tay người nhăn lại khi tiếp xúc với nước không phải là do hút ẩm</span>
+                <button id="button-explanation6" class="toggle-btn" onclick="toggleExplanation('explanation6')">▽</button>
+                <div class="explanation" id="explanation6">Ngón tay nhăn để cải thiện độ bám khi ở trong môi trường ẩm ướt, đây là một phản xạ của hệ thần kinh .
+                </div>
+            </div>
+        </div>
+        <div class="fact-container">
+            <div class="fact">
+                <span class="highlight">#7</span> <span class="fact-text">Loài mực khổng lồ có mắt to nhất trong thế giới động vật</span>
+                <button id="button-explanation7" class="toggle-btn" onclick="toggleExplanation('explanation7')">▽</button>
+                <div class="explanation" id="explanation7">Mắt của mực khổng lồ có đường kính lên tới 30 cm, giúp chúng có thể nhìn rõ trong môi trường biển sâu tối tăm.
+                </div>
+            </div>
+        </div>
     </main>
 </body>
 </html>
