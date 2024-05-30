@@ -3,26 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang web với hình ảnh và chữ</title>
+    <title>Trang web với header</title>
     <style>
         body {
             background-color: black;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             color: white;
+            font-family: Arial, sans-serif;
         }
-        .container {
+        header {
             position: relative;
-            text-align: left;
+            width: 100%;
+            height: 200px; /* Chiều cao của header, có thể điều chỉnh */
         }
-        .container img {
-            display: block;
-            max-width: 100%;
-            height: auto;
+        header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .text {
             position: absolute;
@@ -34,9 +32,12 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <header>
         <img src="picture.png" alt="Picture">
         <div class="text">facts</div>
-    </div>
+    </header>
+    <main>
+        <!-- Nội dung chính của trang web sẽ nằm ở đây -->
+    </main>
 </body>
 </html>
